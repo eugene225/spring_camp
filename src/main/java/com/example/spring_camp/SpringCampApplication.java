@@ -9,5 +9,5 @@ public class SpringCampApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCampApplication.class, args);
 	}
-
+	//야호
 }
