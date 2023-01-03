@@ -10,4 +10,5 @@ public class SpringCampApplication {
 		SpringApplication.run(SpringCampApplication.class, args);
 	}
 	//야호
+	//branch test
 }
