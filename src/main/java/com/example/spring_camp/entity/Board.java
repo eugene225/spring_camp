@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 //class가 table을 의미한다
 @Entity
+@Data
 @Getter
 @NoArgsConstructor
 public class Board {
