@@ -39,4 +39,10 @@ public class BoardController {
         return "boardview";
     }
 
+    @GetMapping("/board/delete")
+    public String boardDelete(Integer id){
+        boardService.boardDelete(id);
+
+        return "redirect:/board/list"; //삭제하면 list로 넘어가도록
+    }
 }
