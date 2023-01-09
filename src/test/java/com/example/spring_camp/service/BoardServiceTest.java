@@ -21,6 +21,9 @@ class BoardServiceTest {
     @Autowired
     BoardRepository boardRepository;
 
+    @Autowired
+    BoardService boardService;
+
     @BeforeEach
     public void cleanUp(){
         boardRepository.deleteAll();
@@ -37,7 +40,7 @@ class BoardServiceTest {
                 .content(content).build();
 
         //when
-        boardRepository.save(board);
+        boardService.write(board);
         List<Board> boardList = boardRepository.findAll();
 
         //then
@@ -45,5 +48,36 @@ class BoardServiceTest {
 
         assertThat(board1.getTitle()).isEqualTo("test title");
         assertThat(board1.getContent()).isEqualTo("test content");
+    }
+
+    @Test
+    void 삭제기능테스트(){
+        //given
+        String title1 = "title1";
+        String content1 = "content1";
+
+        Board board1 = Board.builder()
+                .title(title1)
+                .content(content1).build();
+
+        String title2 = "title2";
+        String content2 = "content2";
+
+        Board board2 = Board.builder()
+                .title(title2)
+                .content(content2).build();
+
+        //when
+        boardRepository.save(board1);
+        boardRepository.save(board2);
+
+        boardService.boardDelete(board1.getId());
+
+        //then
+        List<Board> boardList = boardRepository.findAll();
+        Board board = boardList.get(0);
+
+        assertThat(board.getTitle()).isEqualTo("title2");
+        assertThat(board.getContent()).isEqualTo("content2");
     }
 }
