@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,13 +25,15 @@ class BoardServiceTest {
     @Autowired
     BoardService boardService;
 
+    MultipartFile file;
+
     @BeforeEach
     public void cleanUp(){
         boardRepository.deleteAll();
     }
 
     @Test
-    void write() {
+    void write() throws Exception{
         //given
         String title = "test title";
         String content = "test content";
@@ -40,7 +43,7 @@ class BoardServiceTest {
                 .content(content).build();
 
         //when
-        boardService.write(board);
+        boardService.write(board, file);
         List<Board> boardList = boardRepository.findAll();
 
         //then
