@@ -19,14 +19,20 @@ public class BoardController {
 
     @GetMapping("/board/write")
     public String boardWriteForm(){
+
+
         return "boardwrite";
     }
+
     //프로세스 처리
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board, MultipartFile file) throws Exception{
+    public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception{
         boardService.write(board, file);
 
-        return "";
+
+        model.addAttribute("message", "글 작성이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
+        return "message";
     }
 
     @GetMapping("/board/list")
@@ -42,10 +48,13 @@ public class BoardController {
     }
 
     @GetMapping("/board/delete")
-    public String boardDelete(Integer id){
+    public String boardDelete(Integer id, Model model){
         boardService.boardDelete(id);
 
-        return "redirect:/board/list"; //삭제하면 list로 넘어가도록
+        model.addAttribute("message", "글 삭제가 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
+
+        return "message"; //삭제하면 list로 넘어가도록
     }
 
     @GetMapping("/board/modify/{id}")
@@ -57,8 +66,8 @@ public class BoardController {
         return "boardmodify";
     }
 
-    @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, MultipartFile file) throws Exception{
+    @PostMapping("/board/update/{id}")x
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model, MultipartFile file) throws Exception{
 
         Board boardTemp = boardService.boardView(id); //기존의 글이 담김
         boardTemp.setTitle(board.getTitle()); //수정된 제목
@@ -66,6 +75,9 @@ public class BoardController {
 
         boardService.write(boardTemp, file);
 
-        return "redirect:/board/list";
+        model.addAttribute("message", "글 수정이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
+
+        return "message";
     }
 }
