@@ -25,6 +25,10 @@ public class Board {
     @Column
     private String content;
 
+    private String filename;
+
+    private String filepath;
+
     @Builder
     public Board(String title, String content){
         this.title = title;

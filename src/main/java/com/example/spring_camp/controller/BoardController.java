@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class BoardController {
@@ -25,8 +26,9 @@ public class BoardController {
 
     //프로세스 처리
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board, Model model){
-        boardService.write(board);
+    public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception{
+        boardService.write(board, file);
+
 
         model.addAttribute("message", "글 작성이 완료되었습니다.");
         model.addAttribute("searchUrl", "/board/list");
@@ -64,14 +66,14 @@ public class BoardController {
         return "boardmodify";
     }
 
-    @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model){
+    @PostMapping("/board/update/{id}")x
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model, MultipartFile file) throws Exception{
 
         Board boardTemp = boardService.boardView(id); //기존의 글이 담김
         boardTemp.setTitle(board.getTitle()); //수정된 제목
         boardTemp.setContent(board.getContent());//수정된 내용 덮어씌우기
 
-        boardService.write(boardTemp);
+        boardService.write(boardTemp, file);
 
         model.addAttribute("message", "글 수정이 완료되었습니다.");
         model.addAttribute("searchUrl", "/board/list");
