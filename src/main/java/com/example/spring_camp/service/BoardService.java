@@ -16,7 +16,7 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     // 글 작성 처리
-    public void write(Board board, MultipartFile file) throws Exception{
+    public void writefile(Board board, MultipartFile file) throws Exception{
         String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files"; //프로젝트 경로 담기
 
         UUID uuid = UUID.randomUUID(); //file 이름에 붙일 랜덤 이름 생성
@@ -29,6 +29,10 @@ public class BoardService {
 
         board.setFilename(fileName);
         board.setFilepath("/files/" + fileName);
+        boardRepository.save(board);
+    }
+
+    public void write(Board board){
         boardRepository.save(board);
     }
 
