@@ -27,7 +27,7 @@ public class BoardController {
     //프로세스 처리
     @PostMapping("/board/writepro")
     public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception{
-        boardService.write(board, file);
+        boardService.writefile(board, file);
 
 
         model.addAttribute("message", "글 작성이 완료되었습니다.");
@@ -67,17 +67,17 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, MultipartFile file) throws Exception{
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) throws Exception{
 
         Board boardTemp = boardService.boardView(id); //기존의 글이 담김
         boardTemp.setTitle(board.getTitle()); //수정된 제목
         boardTemp.setContent(board.getContent());//수정된 내용 덮어씌우기
 
-        boardService.write(boardTemp, file);
+        boardService.write(boardTemp);
 
-//        model.addAttribute("message", "글 수정이 완료되었습니다.");
-//        model.addAttribute("searchUrl", "/board/list");
+        model.addAttribute("message", "글 수정이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
 
-        return "redirect:board/list";
+        return "message";
     }
 }

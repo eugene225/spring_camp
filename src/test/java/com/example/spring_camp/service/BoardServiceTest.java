@@ -25,7 +25,6 @@ class BoardServiceTest {
     @Autowired
     BoardService boardService;
 
-    MultipartFile file;
 
     @BeforeEach
     public void cleanUp(){
@@ -33,7 +32,7 @@ class BoardServiceTest {
     }
 
     @Test
-    void write() throws Exception{
+    void write(){
         //given
         String title = "test title";
         String content = "test content";
@@ -43,7 +42,7 @@ class BoardServiceTest {
                 .content(content).build();
 
         //when
-        boardService.write(board, file);
+        boardService.write(board);
         List<Board> boardList = boardRepository.findAll();
 
         //then
