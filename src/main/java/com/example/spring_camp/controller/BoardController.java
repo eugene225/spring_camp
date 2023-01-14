@@ -4,6 +4,9 @@ import com.example.spring_camp.entity.Board;
 import com.example.spring_camp.service.BoardService;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +39,10 @@ public class BoardController {
     }
 
     @GetMapping("/board/list")
-    public String boardlist(Model model){
-        model.addAttribute("list", boardService.boardList());
+    public String boardlist(Model model,
+                            @PageableDefault(page = 0, size=10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){ //page는 0번부터, size, 정렬기준을 기본설정 가능
+                            // board/list?page=page번호&size=크기
+        model.addAttribute("list", boardService.boardList(pageable));
         return "boardlist";
     }
 
