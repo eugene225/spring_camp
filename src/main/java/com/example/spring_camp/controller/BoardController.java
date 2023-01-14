@@ -4,6 +4,7 @@ import com.example.spring_camp.entity.Board;
 import com.example.spring_camp.service.BoardService;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -42,7 +43,17 @@ public class BoardController {
     public String boardlist(Model model,
                             @PageableDefault(page = 0, size=10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){ //page는 0번부터, size, 정렬기준을 기본설정 가능
                             // board/list?page=page번호&size=크기
+
+        Page<Board> list = boardService.boardList(pageable);
+
+        int nowPage = list.getPageable().getPageNumber() + 1; //현재 페이지, pageable의 시작은 0번부터니까
+        int startPage = Math.max(nowPage - 4, 1); //블럭에서 보여줄 시작 페이지, max함수: 매개변수를 비교해서 더 큰값을 return
+        int endPage = Math.min(nowPage + 5, list.getTotalPages()); //블럭에서 보여줄 마지막 페이지, min함수: 매개변수를 비교해서 더 작은값을 return
+
         model.addAttribute("list", boardService.boardList(pageable));
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         return "boardlist";
     }
 

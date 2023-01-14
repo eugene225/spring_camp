@@ -38,4 +38,4 @@ out/
 
 
 ### 첨부파일 폴더 ###
-!**/src/main/resources/static.files/
+src/main/resources/static/files
