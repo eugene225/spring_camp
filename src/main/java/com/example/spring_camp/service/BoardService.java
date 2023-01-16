@@ -19,18 +19,21 @@ public class BoardService {
 
     // 글 작성 처리
     public void writefile(Board board, MultipartFile file) throws Exception{
-        String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files"; //프로젝트 경로 담기
+        if(!file.isEmpty()){
+            String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files"; //프로젝트 경로 담기
 
-        UUID uuid = UUID.randomUUID(); //file 이름에 붙일 랜덤 이름 생성
+            UUID uuid = UUID.randomUUID(); //file 이름에 붙일 랜덤 이름 생성
 
-        String fileName = uuid + "_" + file.getOriginalFilename(); //저장될 파일 이름 만들기
+            String fileName = uuid + "_" + file.getOriginalFilename(); //저장될 파일 이름 만들기
 
-        File saveFile = new File(projectPath, fileName); //파일 생성해서 경로와 이름 설정
+            File saveFile = new File(projectPath, fileName); //파일 생성해서 경로와 이름 설정
 
-        file.transferTo(saveFile);
+            file.transferTo(saveFile);
 
-        board.setFilename(fileName);
-        board.setFilepath("/files/" + fileName);
+            board.setFilename(fileName);
+            board.setFilepath("/files/" + fileName);
+        }
+
         boardRepository.save(board);
     }
 

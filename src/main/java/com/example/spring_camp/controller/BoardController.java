@@ -33,7 +33,6 @@ public class BoardController {
     public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception{
         boardService.writefile(board, file);
 
-
         model.addAttribute("message", "글 작성이 완료되었습니다.");
         model.addAttribute("searchUrl", "/board/list");
         return "message";
