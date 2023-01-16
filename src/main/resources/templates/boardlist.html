@@ -35,6 +35,15 @@
             <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1})}" th:text="${page}"></a>
             <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
         </th:block>
+
+        <form th:action="@{/board/list}" method="get">
+            <input type="text" name="searchKeyword">
+            <button type="submit">검색</button>
+        </form>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a type="button" class="btn btn-dark" th:href="@{/board/write}">글쓰기</a>
+        </div>
     </div>
 </body>
 </html>
