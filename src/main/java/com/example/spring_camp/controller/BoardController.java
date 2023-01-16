@@ -40,10 +40,18 @@ public class BoardController {
 
     @GetMapping("/board/list")
     public String boardlist(Model model,
-                            @PageableDefault(page = 0, size=10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){ //page는 0번부터, size, 정렬기준을 기본설정 가능
+                            @PageableDefault(page = 0, size=10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, //page는 0번부터, size, 정렬기준을 기본설정 가능
                             // board/list?page=page번호&size=크기
+                            String searchKeyword){
 
-        Page<Board> list = boardService.boardList(pageable);
+        Page<Board> list = null;
+
+        if(searchKeyword == null){//검색 단어가 안들어왔을 경우
+            list = boardService.boardList(pageable);
+        }
+        else{//검색할 단어가 들어온 경우
+            list = boardService.boardSearchList(searchKeyword, pageable);
+        }
 
         int nowPage = list.getPageable().getPageNumber() + 1; //현재 페이지, pageable의 시작은 0번부터니까
         int startPage = Math.max(nowPage - 4, 1); //블럭에서 보여줄 시작 페이지, max함수: 매개변수를 비교해서 더 큰값을 return
