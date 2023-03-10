@@ -57,10 +57,11 @@ public class BoardController {
         int startPage = Math.max(nowPage - 4, 1); //블럭에서 보여줄 시작 페이지, max함수: 매개변수를 비교해서 더 큰값을 return
         int endPage = Math.min(nowPage + 5, list.getTotalPages()); //블럭에서 보여줄 마지막 페이지, min함수: 매개변수를 비교해서 더 작은값을 return
 
-        model.addAttribute("list", boardService.boardList(pageable));
+        model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+
         return "boardlist";
     }
 
